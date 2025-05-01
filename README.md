@@ -125,4 +125,4 @@ This project is licensed under the MIT License.
 
 ## Author
 
-- Developed by [Your Name or Organization]
+- Developed by [me and other 7 people]
