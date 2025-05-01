@@ -1,0 +1,204 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} Nutri Connect {% endblock %}
+{% block content %}
+<body>
+    <!-- Introduction Section -->
+    <div class="container my-5">
+        <div class="intro-section text-center">
+            <h1 class="display-4 mb-4">Welcome to Our Food Gallery</h1>
+            <p class="lead mb-4">Explore our comprehensive collection of nutritious food categories. Each section provides detailed information about the nutritional benefits, health impacts, and recommended consumption guidelines. Whether you're looking to improve your diet, manage a specific health condition, or simply learn more about nutrition, our food gallery offers valuable insights to help you make informed dietary choices.</p>
+            <div class="intro-buttons">
+                <a href="chatbot.html" class="btn btn-success btn-lg me-3"><i class="fas fa-comments"></i> Start Nutrition Chat</a>
+                <a href="home.html" class="btn btn-outline-primary btn-lg"><i class="fas fa-home"></i> Return to Home</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Section -->
+    <main class="container my-5">
+        <!-- First Row -->
+        <div class="row row-cols-1 row-cols-md-3 g-4 mb-4"> <!-- Added mb-4 for spacing -->
+            <!-- Food Item 1 -->
+            <div class="col">
+                <div class="card h-100" id="card-fruits">
+                    <img src="{% static 'myapp/images/imgb 2.jpg' %}" class="card-img-top" alt="Fruits">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Fruits</h5>
+                        <p class="card-text">Rich in vitamins and minerals, fruits are essential for a balanced diet.</p>
+                        <button class="btn btn-success" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-fruits" aria-expanded="false" aria-controls="collapse-fruits">
+                            Read More
+                        </button>
+                        <div class="collapse mt-3" id="collapse-fruits">
+                            <p class="card-text">Fruits are a great source of fiber, antioxidants, and natural sugars. They help improve digestion and boost immunity.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Food Item 2 -->
+            <div class="col">
+                <div class="card h-100" id="card-vegetables">
+                    <img src="{%static 'myapp/images/imgb 2.jpg' %}"class="card-img-top" alt="Vegetables">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Vegetables</h5>
+                        <p class="card-text">Loaded with nutrients, vegetables support overall health and immunity.</p>
+                        <button class="btn btn-success" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-vegetables" aria-expanded="false" aria-controls="collapse-vegetables">
+                            Read More
+                        </button>
+                        <div class="collapse mt-3" id="collapse-vegetables">
+                            <p class="card-text">Vegetables are rich in vitamins, minerals, and fiber. They help reduce the risk of chronic diseases and improve digestion.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Food Item 3 -->
+            <div class="col">
+                <div class="card h-100" id="card-nuts">
+                    <img src="{%static 'myapp/images/imgb 2.jpg' %}" class="card-img-top" alt="Nuts">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Nuts</h5>
+                        <p class="card-text">A great source of healthy fats, nuts help maintain energy and brain health.</p>
+                        <button class="btn btn-success" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-nuts" aria-expanded="false" aria-controls="collapse-nuts">
+                            Read More
+                        </button>
+                        <div class="collapse mt-3" id="collapse-nuts">
+                            <p class="card-text">Nuts are packed with protein, healthy fats, and antioxidants. They support heart health and provide long-lasting energy.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Second Row -->
+        <div class="row row-cols-1 row-cols-md-3 g-4 mb-4"> <!-- Added mb-4 for spacing -->
+            <!-- Food Item 4 -->
+            <div class="col">
+                <div class="card h-100" id="card-dairy">
+                    <img src="{%static 'myapp/images/imgb 2.jpg' %}" class="card-img-top" alt="Dairy">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Dairy</h5>
+                        <p class="card-text">Dairy products are rich in calcium and essential for strong bones and teeth.</p>
+                        <button class="btn btn-success" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-dairy" aria-expanded="false" aria-controls="collapse-dairy">
+                            Read More
+                        </button>
+                        <div class="collapse mt-3" id="collapse-dairy">
+                            <p class="card-text">Dairy products like milk, cheese, and yogurt provide protein, calcium, and vitamins for bone health.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Food Item 5 -->
+            <div class="col">
+                <div class="card h-100" id="card-grains">
+                    <img src="{%static 'myapp/images/imgb 2.jpg' %}" class="card-img-top" alt="Grains">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Grains</h5>
+                        <p class="card-text">Grains are a great source of energy and provide essential nutrients like fiber.</p>
+                        <button class="btn btn-success" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-grains" aria-expanded="false" aria-controls="collapse-grains">
+                            Read More
+                        </button>
+                        <div class="collapse mt-3" id="collapse-grains">
+                            <p class="card-text">Whole grains like oats, quinoa, and brown rice are rich in fiber and help maintain digestive health.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Food Item 6 -->
+            <div class="col">
+                <div class="card h-100" id="card-meat">
+                    <img src="{%static 'myapp/images/imgb 2.jpg' %}" class="card-img-top" alt="Meat">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Meat</h5>
+                        <p class="card-text">Meat is a rich source of protein and essential nutrients like iron and zinc.</p>
+                        <button class="btn btn-success" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-meat" aria-expanded="false" aria-controls="collapse-meat">
+                            Read More
+                        </button>
+                        <div class="collapse mt-3" id="collapse-meat">
+                            <p class="card-text">Lean meats like chicken and fish provide high-quality protein and omega-3 fatty acids for heart health.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Third Row -->
+        <div class="row row-cols-1 row-cols-md-3 g-4"> <!-- No mb-4 for the last row -->
+            <!-- Food Item 7 -->
+            <div class="col">
+                <div class="card h-100" id="card-seafood">
+                    <img src="{%static 'myapp/images/imgb 2.jpg' %}" class="card-img-top" alt="Seafood">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Seafood</h5>
+                        <p class="card-text">Seafood is rich in omega-3 fatty acids and supports brain and heart health.</p>
+                        <button class="btn btn-success" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-seafood" aria-expanded="false" aria-controls="collapse-seafood">
+                            Read More
+                        </button>
+                        <div class="collapse mt-3" id="collapse-seafood">
+                            <p class="card-text">Fish like salmon and tuna are excellent sources of omega-3 fatty acids, which promote brain and heart health.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Food Item 8 -->
+            <div class="col">
+                <div class="card h-100" id="card-legumes">
+                    <img src="{%static 'myapp/images/imgb 2.jpg' %}" class="card-img-top" alt="Legumes">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Legumes</h5>
+                        <p class="card-text">Legumes are high in protein and fiber, making them a great plant-based food option.</p>
+                        <button class="btn btn-success" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-legumes" aria-expanded="false" aria-controls="collapse-legumes">
+                            Read More
+                        </button>
+                        <div class="collapse mt-3" id="collapse-legumes">
+                            <p class="card-text">Beans, lentils, and chickpeas are rich in protein, fiber, and essential minerals for overall health.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Food Item 9 -->
+            <div class="col">
+                <div class="card h-100" id="card-eggs">
+                    <img src="{%static 'myapp/images/imgb 2.jpg' %}" class="card-img-top" alt="Eggs">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Eggs</h5>
+                        <p class="card-text">Eggs are a complete source of protein and contain essential vitamins and minerals.</p>
+                        <button class="btn btn-success" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-eggs" aria-expanded="false" aria-controls="collapse-eggs">
+                            Read More
+                        </button>
+                        <div class="collapse mt-3" id="collapse-eggs">
+                            <p class="card-text">Eggs are nutrient-dense and provide high-quality protein, vitamin D, and choline for brain health.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    
+  
+
+    <!-- Bootstrap JS Bundle -->
+    <script src="{% static 'js\bootstrap.bundle.min.js' %}"></script>
+    <script>
+        // Add/remove the "expanded" class to animate the card when the collapse is toggled
+        document.querySelectorAll('.btn-success').forEach(button => {
+            button.addEventListener('click', function () {
+                const card = this.closest('.card');
+                const collapse = document.querySelector(this.getAttribute('data-bs-target'));
+                collapse.addEventListener('shown.bs.collapse', () => card.classList.add('expanded'));
+                collapse.addEventListener('hidden.bs.collapse', () => card.classList.remove('expanded'));
+            });
+        });
+        
+        // Navbar scroll effect
+        window.addEventListener('scroll', function() {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+    </script>
+</body>
+{% endblock %}

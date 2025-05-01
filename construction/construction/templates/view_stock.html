@@ -1,0 +1,152 @@
+{% extends 'construction-base.html' %}
+{% load static %}
+
+{% block title %}View Stock - Building Management System{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-md-6">
+        <h2><i class="fas fa-warehouse"></i> Current Stock</h2>
+    </div>
+    <div class="col-md-6">
+        <div class="input-group">
+            <input type="text" class="form-control" id="searchInput" placeholder="Search materials...">
+            <button class="btn btn-outline-secondary" type="button" id="searchButton">
+                <i class="fas fa-search"></i>
+            </button>
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-hover" id="stockTable">
+                <thead>
+                    <tr>
+                        <th>Material</th>
+                        <th>Category</th>
+                        <th>Quantity</th>
+                        <th>Unit</th>
+                        <th>Last Updated</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in stock_items %}
+                    <tr>
+                        <td>{{ item.material.name }}</td>
+                        <td>{{ item.material.category }}</td>
+                        <td>{{ item.quantity }}</td>
+                        <td>{{ item.material.unit }}</td>
+                        <td>{{ item.last_updated|date:"Y-m-d H:i" }}</td>
+                        <td>
+                            {% if item.quantity <= item.material.min_quantity %}
+                                <span class="badge bg-danger">Low Stock</span>
+                            {% elif item.quantity <= item.material.min_quantity|add:10 %}
+                                <span class="badge bg-warning">Warning</span>
+                            {% else %}
+                                <span class="badge bg-success">In Stock</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <button class="btn btn-sm btn-info" data-bs-toggle="modal" data-bs-target="#historyModal{{ item.id }}">
+                                <i class="fas fa-history"></i>
+                            </button>
+                            <a href="{% url 'edit_stock' item.id %}" class="btn btn-sm btn-primary">
+                                <i class="fas fa-edit"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="7" class="text-center">No stock items found</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+{% for item in stock_items %}
+<!-- History Modal -->
+<div class="modal fade" id="historyModal{{ item.id }}" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">History for {{ item.material.name }}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Type</th>
+                                <th>Quantity</th>
+                                <th>User</th>
+                                <th>Notes</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for history in item.history.all %}
+                            <tr>
+                                <td>{{ history.date|date:"Y-m-d H:i" }}</td>
+                                <td>
+                                    {% if history.type == 'arrival' %}
+                                        <span class="badge bg-success">Arrival</span>
+                                    {% else %}
+                                        <span class="badge bg-warning">Usage</span>
+                                    {% endif %}
+                                </td>
+                                <td>{{ history.quantity }}</td>
+                                <td>{{ history.user }}</td>
+                                <td>{{ history.notes }}</td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="5" class="text-center">No history available</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const searchInput = document.getElementById('searchInput');
+    const stockTable = document.getElementById('stockTable');
+    const rows = stockTable.getElementsByTagName('tbody')[0].getElementsByTagName('tr');
+
+    searchInput.addEventListener('keyup', function() {
+        const searchText = this.value.toLowerCase();
+        
+        for (let i = 0; i < rows.length; i++) {
+            const row = rows[i];
+            const cells = row.getElementsByTagName('td');
+            let found = false;
+            
+            for (let j = 0; j < cells.length; j++) {
+                const cell = cells[j];
+                if (cell.textContent.toLowerCase().indexOf(searchText) > -1) {
+                    found = true;
+                    break;
+                }
+            }
+            
+            row.style.display = found ? '' : 'none';
+        }
+    });
+});
+</script>
+{% endblock %} 

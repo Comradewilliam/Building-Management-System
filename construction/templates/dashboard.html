@@ -1,0 +1,185 @@
+{% extends 'construction-base.html' %}
+{% load static %}
+
+{% block title %}Dashboard - Building Management System{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-md-12">
+        <h2><i class="fas fa-tachometer-alt"></i> Dashboard</h2>
+    </div>
+</div>
+
+<div class="row mb-4">
+    <div class="col-md-3">
+        <div class="card bg-primary text-white">
+            <div class="card-body">
+                <h5 class="card-title">Total Materials</h5>
+                <h2 class="display-4" id="total-materials">{{ total_materials }}</h2>
+                <p class="card-text">Different materials in inventory</p>
+                <ul>
+                    <li>Cement: <span id="cement-qty">-</span></li>
+                    <li>Gravel: <span id="gravel-qty">-</span></li>
+                    <li>Sand: <span id="sand-qty">-</span></li>
+                    <li>Steel Rods: <span id="steelrods-qty">-</span></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card bg-success text-white">
+            <div class="card-body">
+                <h5 class="card-title">Available Stock</h5>
+                <h2 class="display-4" id="available-stock">{{ available_stock }}</h2>
+                <p class="card-text">Total quantity of all materials</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card bg-warning text-dark">
+            <div class="card-body">
+                <h5 class="card-title">Low Stock Items</h5>
+                <h2 class="display-4">{{ low_stock_items }}</h2>
+                <p class="card-text">Items below minimum quantity</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card bg-info text-white">
+            <div class="card-body">
+                <h5 class="card-title">Today's Usage</h5>
+                <h2 class="display-4" id="today-usage">{{ today_usage }}</h2>
+                <p class="card-text">Materials used today</p>
+                <ul class="list-unstyled small">
+                    <li>Cement: <span id="cement-usage">-</span></li>
+                    <li>Gravel: <span id="gravel-usage">-</span></li>
+                    <li>Sand: <span id="sand-usage">-</span></li>
+                    <li>Steel Rods: <span id="steelrods-usage">-</span></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5><i class="fas fa-exclamation-triangle"></i> Low Stock Alerts</h5>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Material</th>
+                                <th>Current</th>
+                                <th>Minimum</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in low_stock_alerts %}
+                            <tr>
+                                <td>{{ item.material.name }}</td>
+                                <td>{{ item.quantity }} {{ item.material.unit }}</td>
+                                <td>{{ item.material.min_quantity }} {{ item.material.unit }}</td>
+                                <td>
+                                    <span class="badge bg-danger">Low Stock</span>
+                                </td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="4" class="text-center">No low stock alerts</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5><i class="fas fa-history"></i> Recent Activities</h5>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Material</th>
+                                <th>Type</th>
+                                <th>Quantity</th>
+                                <th>User</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for activity in recent_activities %}
+                            <tr>
+                                <td>{{ activity.date|date:"Y-m-d H:i" }}</td>
+                                <td>{{ activity.material.name }}</td>
+                                <td>
+                                    {% if activity.type == 'arrival' %}
+                                        <span class="badge bg-success">Arrival</span>
+                                    {% else %}
+                                        <span class="badge bg-warning">Usage</span>
+                                    {% endif %}
+                                </td>
+                                <td>{{ activity.quantity }} {{ activity.material.unit }}</td>
+                                <td>{{ activity.user.username }}</td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="5" class="text-center">No recent activities</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    fetch('https://polished-crow-selected.ngrok-free.app/api/data')
+        .then(response => response.json())
+        .then(data => {
+            // Update totals
+            document.getElementById('total-materials').textContent = data.total_materials;
+            document.getElementById('available-stock').textContent = data.available_stock;
+            document.getElementById('low-stock-items').textContent = data.low_stock_items;
+            document.getElementById('today-usage').textContent = data.today_usage;
+
+            // Update material quantities
+            document.getElementById('cement-qty').textContent = data.cement_qty ?? '-';
+            document.getElementById('gravel-qty').textContent = data.gravel_qty ?? '-';
+            document.getElementById('sand-qty').textContent = data.sand_qty ?? '-';
+            document.getElementById('steelrods-qty').textContent = data.steelrods_qty ?? '-';
+            
+            // Update available stock
+            document.getElementById('cement-available').textContent = data.cement_available ?? '-';
+            document.getElementById('gravel-available').textContent = data.gravel_available ?? '-';
+            document.getElementById('sand-available').textContent = data.sand_available ?? '-';
+            document.getElementById('steelrods-available').textContent = data.steelrods_available ?? '-';
+            
+            // Update low stock
+            document.getElementById('cement-low').textContent = data.cement_low ?? '-';
+            document.getElementById('gravel-low').textContent = data.gravel_low ?? '-';
+            document.getElementById('sand-low').textContent = data.sand_low ?? '-';
+            document.getElementById('steelrods-low').textContent = data.steelrods_low ?? '-';
+            
+            // Update today's usage
+            document.getElementById('cement-usage').textContent = data.cement_usage ?? '-';
+            document.getElementById('gravel-usage').textContent = data.gravel_usage ?? '-';
+            document.getElementById('sand-usage').textContent = data.sand_usage ?? '-';
+            document.getElementById('steelrods-usage').textContent = data.steelrods_usage ?? '-';
+        });
+});
+</script>
+{% endblock %}
